@@ -23,7 +23,7 @@ void QixWidget::startNewGame() {
 */
 void QixWidget::initializeGL() {
     // Enable stuff
-    qglClearColor(Qt::white);
+    qglClearColor(Qt::black);
   
     glShadeModel(GL_FLAT);
     
@@ -43,7 +43,7 @@ void QixWidget::resizeGL(int width, int height) {
   
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(80, 1.0, 1.0, 180);
+    gluOrtho2D(-10.0,10.0,-10.0,10.0);
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -66,7 +66,7 @@ void QixWidget::paintGL() {
     glLoadIdentity();
 
     // Draw something here
-
+    glColor3f(0.0,1.0,0.0);
     glBegin(GL_QUADS);
     glVertex2f(-1.0,-1.0);
     glVertex2f(1.0,-1.0);
