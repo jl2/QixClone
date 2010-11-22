@@ -13,6 +13,8 @@
 #include <GL/glu.h>
 #endif
 
+#include "qixstate.h"
+
 class QixWidget : public QGLWidget {
     Q_OBJECT;
 
@@ -30,6 +32,10 @@ protected:
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
+
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
+    void timerEvent(QTimerEvent *event);
   
 private:
     // Error handler for OpenGL errors
@@ -37,6 +43,10 @@ private:
   
     // Set to true when the game is lost
     bool lost;
+
+    int timerId;
+
+    QixState *qixGame;
 };
 
 #endif

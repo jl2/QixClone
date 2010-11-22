@@ -1,21 +1,31 @@
 #include <QMainWindow>
-
+#include <iostream>
 #include <sstream>
 #include <stdexcept>
 
 #include "qixwidget.h"
 
-QixWidget::QixWidget(QWidget*) :lost(false) {
+QixWidget::QixWidget(QWidget*) : lost(false), timerId(0), qixGame(0) {
     QGLFormat qf = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer | QGL::SampleBuffers);
     qf.setSampleBuffers(2);
     setFormat(qf);
+    setFocusPolicy(Qt::StrongFocus);
+    timerId = startTimer(1000.0/60);
+
+    qixGame = new QixState();
 }
 
 QixWidget::~QixWidget() {
+    if (qixGame) {
+        delete qixGame;
+        qixGame = 0;
+    }
 }
 
 void QixWidget::startNewGame() {
     lost = false;
+    delete qixGame;
+    qixGame = new QixState();
 }
 
 /*!
@@ -99,4 +109,51 @@ inline void QixWidget::handleGLError(size_t ln) {
     // Print info to stdout and throw an exception
     //std::cout << err.str() << "\n";
     throw new std::runtime_error(err.str());
+}
+
+
+void QixWidget::timerEvent(QTimerEvent *event) {
+    if (event->timerId() == timerId) {
+        // std::cout << "Timer update!\n";
+        update();
+    } else {
+        QWidget::timerEvent(event);
+    }
+}
+
+void QixWidget::keyPressEvent(QKeyEvent *event) {
+    double dy=0.0, dx=0.0;
+    switch (event->key()) {
+
+    case (Qt::Key_Up):       dy = -1.0; break;
+    case (Qt::Key_Down):     dy = 1.0; break;
+    case (Qt::Key_Right):    dx = 1.0; break;
+    case (Qt::Key_Left):     dx = -1.0; break;
+
+    case (Qt::Key_Space):    if (!qixGame->isStarted()) {
+            qixGame->startGame();
+            break;
+        }
+
+    default:
+        QWidget::keyPressEvent(event);
+    }
+    std::cout << "dx: " << dx << ", dy: " << dy << "\n";
+    //  update();
+}
+
+void QixWidget::keyReleaseEvent(QKeyEvent *event) {
+    double dy=0.0, dx=0.0;
+    switch (event->key()) {
+
+    case (Qt::Key_Up):       dy = 0.0; break;
+    case (Qt::Key_Down):     dy = 0.0; break;
+    case (Qt::Key_Right):    dx = 0.0; break;
+    case (Qt::Key_Left):     dx = 0.0; break;
+        
+    default:
+        QWidget::keyPressEvent(event);
+    }
+    std::cout << "dx: " << dx << ", dy: " << dy << "\n";
+    //  update();
 }

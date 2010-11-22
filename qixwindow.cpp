@@ -19,7 +19,6 @@ QixWindow::QixWindow() : QMainWindow(), lost(false), qixwid(0) {
   
     // // Make the QMinefield the central widget
     qixwid = new QixWidget(this);
-    qixwid->startNewGame();
     setCentralWidget(qixwid);
 
     // Initialize GUI stuff

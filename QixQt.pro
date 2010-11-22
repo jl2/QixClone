@@ -9,6 +9,6 @@ INCLUDEPATH += .
 
 # Input
 QT += opengl
-HEADERS += qixwidget.h qixwindow.h
-SOURCES += main.cpp qixwidget.cpp qixwindow.cpp
+HEADERS += qixwidget.h qixwindow.h qixstate.h
+SOURCES += main.cpp qixwidget.cpp qixwindow.cpp qixstate.cpp
 RESOURCES += qix.qrc
