@@ -18,6 +18,12 @@ VersionX-revision.h
 build/
 *.[oa]
 
+moc_*.cpp
+qrc_*.cpp
+Makefile
+
+QixQt
+
 # Other source repository archive directories (protects when importing)
 .hg
 .svn
