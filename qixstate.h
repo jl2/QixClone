@@ -19,6 +19,37 @@
 #ifndef QIX_STATE_H
 #define QIX_STATE_H
 
+class Dot {
+public:
+    Dot(int x, int y);
+    virtual ~Dot();
+    virtual void draw() = 0;
+    int xPos();
+    int yPos();
+    int move(int dx, int dy);
+
+private:
+    int _xPos;
+    int _yPos;
+};
+
+class Player : public Dot {
+public:
+    Player(int x, int y);
+    virtual ~Player();
+    virtual void draw();
+private:
+};
+
+class Spark : public Dot {
+public:
+    Spark(int x, int y, bool hyper=false);
+    virtual ~Spark();
+    virtual void draw();
+private:
+    bool _hyper;
+};
+
 class QixState {
 public:
     QixState();
