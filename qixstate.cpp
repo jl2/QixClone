@@ -20,6 +20,52 @@
 
 #include <iostream>
 
+Drawable::Drawable() {}
+Drawable::~Drawable() {}
+
+Dot::Dot(qpoint p) : Drawable() {
+    _pos.x = p.x;
+    _pos.y = p.y;
+}
+Dot::~Dot() {}
+
+void Dot::move(qpoint dp) {
+    _pos.x += dp.x;
+    _pos.y += dp.y;
+}
+
+Player::Player(qpoint pos) : Dot(pos) {
+}
+
+Player::~Player() {}
+    
+void Player::draw() {
+}
+
+Spark::Spark(qpoint pos, bool hyper) : Dot(pos), _hyper(hyper) {
+}
+
+Spark::~Spark() {}
+
+void Spark::draw() {
+}
+
+Qix::Qix(qpoint p1, qpoint p2, qpoint p3) : Drawable() {
+    _pos1.x = p1.x;
+    _pos1.y = p1.y;
+
+    _pos2.x = p2.x;
+    _pos2.y = p2.y;
+
+    _pos3.x = p3.x;
+    _pos3.y = p3.y;
+}
+
+Qix::~Qix() {}
+
+void Qix::draw() {
+}
+
 QixState::QixState(): started(false) {
     std::cout << "Creating Qix game!\n";
 }

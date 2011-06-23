@@ -19,35 +19,64 @@
 #ifndef QIX_STATE_H
 #define QIX_STATE_H
 
-class Dot {
+#include <vector>
+
+struct qpoint {
 public:
-    Dot(int x, int y);
+    qpoint() : x(0), y(0) {}
+    int x;
+    int y;
+};
+
+class Drawable {
+public:
+    Drawable();
+    virtual ~Drawable();
+    virtual void draw() = 0;
+};
+class Dot : public Drawable {
+public:
+    Dot(qpoint p = qpoint());
     virtual ~Dot();
     virtual void draw() = 0;
-    int xPos();
-    int yPos();
-    int move(int dx, int dy);
+    void move(qpoint dp);
 
 private:
-    int _xPos;
-    int _yPos;
+    qpoint _pos;
 };
 
 class Player : public Dot {
 public:
-    Player(int x, int y);
+    Player(qpoint pos = qpoint());
     virtual ~Player();
     virtual void draw();
+
 private:
 };
 
 class Spark : public Dot {
 public:
-    Spark(int x, int y, bool hyper=false);
+    Spark(qpoint pos = qpoint(), bool hyper=false);
     virtual ~Spark();
     virtual void draw();
+
 private:
     bool _hyper;
+};
+
+class Qix : public Drawable {
+public:
+    Qix(qpoint p1 = qpoint(), qpoint p2 = qpoint(), qpoint p3 = qpoint());
+    ~Qix();
+    virtual void draw();
+
+private:
+    qpoint _pos1;
+    qpoint _pos2;
+    qpoint _pos3;
+
+    qpoint _next;
+    qpoint _prev;
 };
 
 class QixState {
@@ -61,7 +90,10 @@ public:
     bool isStarted() { return started; }
     
 protected:
-    
+    std::vector<Spark> sparks;
+    std::vector<Qix> qixs;
+    Player thePlayer;
+
 private:
     bool started;
 };
